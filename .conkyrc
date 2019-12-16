@@ -1,0 +1,56 @@
+conky.config = {
+	background = false,
+	update_interval = 1,
+
+	override_utf8_locale = true,
+
+	double_buffer = true,
+	no_buffers = true,
+
+	text_buffer_size = 2048,
+	imlib_cache_size = 0,
+
+
+	own_window = true,
+	own_window_type = 'normal',
+	own_window_transparent = true,
+	own_window_argb_visual = true,
+	own_window_hints = 'undecorated,below,sticky,skip_taskbar,skip_pager',
+
+	border_inner_margin = 0,
+	border_outer_margin = 0,
+
+	minimum_width = 1253, minimum_height = 101,--width height
+
+
+	alignment = 'bottom_middle',
+	gap_x = 0,
+	gap_y = 0,
+
+	draw_shades = false,
+	draw_outline = false,
+	draw_borders = false,
+	draw_graph_borders = false,
+
+	use_xft = true,
+	font = 'DejaVu Sans Book:size=6',
+	xftalpha = 0.5,
+
+	uppercase = false,
+
+        template6="902b62d84e44322b1cfff04851fbcebd",
+	template7="6183235",
+	template8="metric",
+
+	lua_load = '~/.conky/settings.lua',
+--	lua_load = 'settings.lua',
+	lua_draw_hook_pre = 'start_widgets',
+};
+
+conky.text = [[
+${execi 300 l=${template9}; l=${l%%_*}; curl -s "api.openweathermap.org/data/2.5/forecast/daily?APPID=${template6}&id=${template7}&cnt=5&units=${template8}&lang=$l" -o ~/.cache/forecast.json}\
+${execi 300 l=${template9}; l=${l%%_*}; curl -s "api.openweathermap.org/data/2.5/weather?APPID=${template6}&id=${template7}&cnt=5&units=${template8}&lang=$l" -o ~/.cache/weather.json}\
+${goto 1010}${voffset 16}${font DejaVu Sans Book:size=18}${execi 300 jq ".main.temp" ~/.cache/weather.json | awk '{print int($1+0.5)}' # round num}°
+${goto 955}${voffset 2}${font DejaVu Sans Book:size=10}${execi 300 jq -r .list[1].temp.min ~/.cache/forecast.json | awk '{print int($1+0.5)}' # round num}${if_match "$template8" == "metric"} °C / ${execi 300 jq -r .list[1].temp.max ~/.cache/forecast.json | awk '{print int($1+0.5)}' # round num}${if_match "$template8" == "metric"} °C
+${image /home/bry2k200/.conky/50n.png -p 955,10 -s 38x38}
+]];
