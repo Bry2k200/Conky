@@ -1,0 +1,57 @@
+conky.config = {
+background=true,
+update_interval=1,
+double_buffer=true,
+no_buffers=true,
+imlib_cache_size=10,
+draw_shades=false,
+draw_outline=false,
+draw_borders=false,
+draw_graph_borders=false,
+default_graph_height=26,
+default_graph_width=80,
+show_graph_scale=false,
+show_graph_range=false,
+gap_x=40,
+gap_y=5,
+minimum_height=100,
+minimum_width=190,
+own_window=true,
+own_window_type="normal",
+own_window_transparent=true,
+own_window_hints="undecorated,below,sticky,skip_taskbar,skip_pager",
+border_inner_margin=0,
+border_outer_margin=0,
+alignment="bottom_right",
+use_xft=true,
+xftalpha=1,
+font="Noto Sans Display Light:size=10",
+text_buffer_size=256,
+override_utf8_locale=true,
+short_units=true,
+short_units=true,
+pad_percents=2,
+top_name_width=7,
+default_color="fff6f6",
+color0 = "fff6f6",
+template6="902b62d84e44322b1cfff04851fbcebd",
+template7="6183235",
+template8="metric",
+color1 = 'ffffff',
+color2 = '68364B',
+color3 = '8a8a8a',
+color4 = '44744E',
+};
+
+conky.text = [[
+${font Noto Sans Display Bold:size=15}${color1}G    E    N    T    O    O
+${goto 90}${voffset 20}${color1}${font Liberation Mono:size=8}MO TU WE TH FR SA SU
+${goto 90}${execpi 1800 LAR=`date +%-d`; cal | sed '2d' | sed -e '1d' -e 's/\<'$LAR'\>/${color1}&${color1}/' | sed ':a;N;$!ba;s/\n/\n${goto 90}/g'}${color}${font}
+${voffset -105}${font Noto Sans Display Light:size=30}${color1}${time %H}:
+${voffset -17}${color2}${time %M}
+${voffset -17}${goto 48}${font Noto Sans Display Light:size=8}${color3}Linux Kernel:  ${kernel}${color}
+
+${color1}${font Noto Sans Display Bold:size=10:bold}RAM ${alignr}${color1}${font Noto Sans Display Light:size=10}${mem} / ${memmax}
+${color1}${font Noto Sans Display Bold:size=10:bold}CPU ${alignr}${color1}${font Noto Sans Display Light:size=10}${cpu cpu1}%
+${color1}${font Noto Sans Display Bold:size=10:bold}NAS  ${alignr}${color1}${font Noto Sans Display Light:size=10}${fs_used /home/bry2k200/Media} / ${fs_size /home/bry2k200/Media}
+]];
