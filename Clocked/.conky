@@ -1,1 +1,94 @@
+conky.config = {
+background=true,
+update_interval=1,
+double_buffer=true,
+no_buffers=true,
+imlib_cache_size=10,
+draw_shades=false,
+draw_outline=false,
+draw_borders=false,
+draw_graph_borders=false,
+default_graph_height=26,
+default_graph_width=80,
+show_graph_scale=false,
+show_graph_range=false,
+gap_x=40,
+gap_y=5,
+minimum_height=900,
+minimum_width=330,
+own_window=true,
+own_window_type="normal",
+own_window_transparent=true,
+own_window_hints="undecorated,below,sticky,skip_taskbar,skip_pager",
+border_inner_margin=0,
+border_outer_margin=0,
+alignment="bottom_right",
+use_xft=true,
+xftalpha=1,
+font="Noto Sans Display Light:size=10",
+text_buffer_size=256,
+override_utf8_locale=true,
+short_units=true,
+short_units=true,
+pad_percents=2,
+top_name_width=7,
+default_color="fff6f6",
+color0 = "fff6f6",
+template6="902b62d84e44322b1cfff04851fbcebd",
+template7="6183235",
+template8="metric",
+color1 = 'ffffff',
+color2 = '68364B',
+color3 = '958E9A',
+color4 = '0099ff',
+color5 = '76bbdb',
+color6 = '807E60',
+mpd_host = '127.0.0.1',
+mpd_port = 6600,
+lua_load = '/home/bry2k200/.conky/bry.lua',
+lua_draw_hook_pre = 'ring_stats',
+};
 
+conky.text = [[
+
+
+${goto 150}${color1}${font Noto Sans Display Light:size=13}${time %A}${font}
+${color1}${goto 190}${voffset 7}${color1}${font Noto Sans Display Light:size=13}${time %Y %b}${color1}${font Noto Sans Display Light:size=13}${time %e}${font}${color}
+${color1}${font Noto Sans Display Light:size=13}${goto 230}${voffset 7}${time %H:%M:%S}${font}${color}
+
+
+
+${font Noto Sans Display Light:size=8}${color1}${uptime}${goto 190}${color1}Linux: ${color1}${kernel}
+${color1}${cpu cpu0}%	${freq_g 0}${goto 190}${color1}RAM Usage: ${color1}${memperc}%
+${color1}${cpu cpu1}%	${freq_g 1}${goto 210}${mem} / ${memmax}
+${color1}${cpu cpu2}%	${freq_g 2}${goto 190}${color1}SWAP Usage: ${color1}${swapperc}%
+${color1}${cpu cpu3}%	${freq_g 3}${goto 210}${swap} / ${swapmax}
+${color1}${cpu cpu4}%	${freq_g 4}
+${color1}${cpu cpu5}%	${freq_g 5}${goto 190}${top_mem name 1}${top_mem mem_res 1}
+${color1}Processes: ${color1}${processes}${goto 190}${top_mem name 2}${top_mem mem_res 2}
+${color1}Running: ${color1}${running_processes}${goto 190}${top_mem name 3}${top_mem mem_res 3}
+${color1}${goto 190}${top_mem name 4}${top_mem mem_res 4}
+${color1}${top name 1}${top cpu 1}
+${color1}${top name 2}${top cpu 2}
+${color1}${top name 3}${top cpu 3}
+${color1}${top name 4}${top cpu 4}
+${color1}${cpugraph}
+${color1}${goto 190}Network: ${color1}Rizz0-Built
+${color1}${goto 190}Gateway: ${color1}192.168.1.1
+${color1}${goto 190}Local IP: ${color1}${addr enp2s0}
+${color1}${goto 190}Public IP: ${color1}${exec wget http://ipinfo.io/ip -qO -}
+${color1}${goto 190}Total Down/Up: 
+${color1}${goto 210}${totaldown enp2s0}
+${color1}${goto 210}${totalup enp2s0}
+${color1}${goto 140}Drives:
+${color1}${goto 140}Home: ${fs_used /} / ${fs_size /}
+${color1}${goto 140}HDD2: ${fs_used /home/HDD2} / ${fs_size /home/HDD2}
+${color1}${goto 140}NAS: ${fs_used /home/bry2k200/Media} / ${fs_size /home/bry2k200/Media}
+${execi 300 l=${template9}; l=${l%%_*}; curl -s "api.openweathermap.org/data/2.5/forecast/daily?APPID=${template6}&id=${template7}&cnt=5&units=${template8}&lang=$l" -o ~/.cache/forecast.json}\
+${execi 300 l=${template9}; l=${l%%_*}; curl -s "api.openweathermap.org/data/2.5/weather?APPID=${template6}&id=${template7}&cnt=5&units=${template8}&lang=$l" -o ~/.cache/weather.json}\
+${color1}${goto 35}${font Noto Sans Display Light:size=15}${execi 300 jq -r .main.temp ~/.cache/weather.json | awk '{print int($1+0.5)}' # round num}${if_match "$template8" == "metric"} °C${else}${if_match "$template8" == "imperial"} °F${else}${if_match "$template8" == "default"} K${endif}${endif}${endif}${font}${color}
+${color1}${font Noto Sans Display Light:size=8}${voffset 10}${execi 3600 date -d +1day +%A}: ${goto 85}${execi 3600 date -d +2day +%A}:
+${color1}${voffset 5}${execi 300 jq -r .list[1].temp.min ~/.cache/forecast.json | awk '{print int($1+0.5)}' # round num}${if_match "$template8" == "metric"} °C${else}${if_match "$template8" == "imperial"} °F${else}${if_match "$template8" == "default"} K${endif}${endif}${endif}/${execi 300 jq -r .list[1].temp.max ~/.cache/forecast.json | awk '{print int($1+0.5)}' # round num}${if_match "$template8" == "metric"} °C${else}${if_match "$template8" == "imperial"} °F${else}${if_match "$template8" == "default"} K${endif}${endif}${endif}${color}
+${color1}${voffset -15}${color1}${goto 85}${execi 300 jq -r .list[2].temp.min ~/.cache/forecast.json | awk '{print int($1+0.5)}' # round num}${if_match "$template8" == "metric"} °C${else}${if_match "$template8" == "imperial"} °F${else}${if_match "$template8" == "default"} K${endif}${endif}${endif}/${execi 300 jq -r .list[2].temp.max ~/.cache/forecast.json | awk '{print int($1+0.5)}' # round num}${if_match "$template8" == "metric"} °C${else}${if_match "$template8" == "imperial"} °F${else}${if_match "$template8" == "default"} K${endif}${endif}${endif}${color}
+
+]];
